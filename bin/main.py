@@ -66,6 +66,40 @@ async def handle_question(message: Message):
             )
             print(f"❌ Ошибка: {e}")
 
+# --- 4. ФИКТИВНЫЙ ВЕБ-СЕРВЕР ДЛЯ RENDER ---
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    """Простой обработчик, который всегда возвращает 'OK'."""
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+def run_http_server():
+    """Запускает HTTP-сервер на порту из переменной PORT."""
+    port = int(os.environ.get('PORT', 8080))
+    server_address = ('0.0.0.0', port)
+    httpd = HTTPServer(server_address, HealthCheckHandler)
+    print(f"⚡ Фиктивный HTTP-сервер запущен на порту {port}")
+    httpd.serve_forever()
+
+# --- 5. ЗАПУСК ---
+async def main():
+    print("="*60)
+    print("🤖 БОТ ДЛЯ СБОРА АНОНИМНЫХ ВОПРОСОВ ПО ПСИХОЛОГИИ")
+    print("="*60)
+    
+    # Удаляем старый вебхук на случай конфликтов
+    await bot.delete_webhook(drop_pending_updates=True)
+    
+    # Запускаем фиктивный веб-сервер в отдельном потоке
+    server_thread = threading.Thread(target=run_http_server, daemon=True)
+    server_thread.start()
+    
+    print(f"✅ Бот запущен и готов к работе!")
+    print(f"📨 Ожидаю анонимные вопросы...")
+    print(f"📤 Вопросы будут отправляться в чат ID: {CHAT_ID}")
+    print("="*60 + "\n")
+
 async def main():
     await dp.start_polling(bot)
 
