@@ -1,6 +1,8 @@
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 
 import asyncio
+import threading
 
 from aiogram import Bot, Dispatcher
 from aiogram import types
@@ -97,7 +99,7 @@ async def main():
     
     print(f"✅ Бот запущен и готов к работе!")
     print(f"📨 Ожидаю анонимные вопросы...")
-    print(f"📤 Вопросы будут отправляться в чат ID: {CHAT_ID}")
+    print(f"📤 Вопросы будут отправляться в чат ID: {ADMIN_CHAT_ID}")
     print("="*60 + "\n")
     
     # Запускаем бота (long polling)
