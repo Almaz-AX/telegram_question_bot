@@ -90,9 +90,6 @@ async def main():
     print("🤖 БОТ ДЛЯ СБОРА АНОНИМНЫХ ВОПРОСОВ ПО ПСИХОЛОГИИ")
     print("="*60)
     
-    # Удаляем старый вебхук на случай конфликтов
-    await bot.delete_webhook(drop_pending_updates=True)
-    
     # Запускаем фиктивный веб-сервер в отдельном потоке
     server_thread = threading.Thread(target=run_http_server, daemon=True)
     server_thread.start()
