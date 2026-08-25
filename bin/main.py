@@ -99,9 +99,17 @@ async def main():
     print(f"📨 Ожидаю анонимные вопросы...")
     print(f"📤 Вопросы будут отправляться в чат ID: {CHAT_ID}")
     print("="*60 + "\n")
+    
+    # Запускаем бота (long polling)
+    try:
+        await dp.start_polling(bot)
+    except Exception as e:
+        print(f"❌ Ошибка работы бота: {e}")
+    finally:
+        await bot.session.close()
 
-async def main():
-    await dp.start_polling(bot)
+# async def main():
+#     await dp.start_polling(bot)
 
 if __name__== "__main__":
     asyncio.run(main())
