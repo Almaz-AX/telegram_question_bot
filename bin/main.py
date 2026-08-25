@@ -65,23 +65,10 @@ async def handle_question(message: Message):
                 "Пожалуйста, попробуйте позже."
             )
             print(f"❌ Ошибка: {e}")
-async def handle_health_check(reader, writer):
-    """Обработчик для фиктивного HTTP-запроса."""
-    writer.write(b"HTTP/1.1 200 OK\r\n\r\nOK")
-    await writer.drain()
-    writer.close()
-    await writer.wait_closed()
-                
-async def run_http_server_async():
-    """Запускает HTTP-сервер асинхронно."""
-    port = int(os.environ.get('PORT', 8080))
-    server = await asyncio.start_server(handle_health_check, '0.0.0.0', port)
-    print(f"⚡ Асинхронный HTTP-сервер запущен на порту {port}")
-    async with server:
-        await server.serve_forever()
+
 
 async def main():
-    asyncio.create_task(run_http_server_async())
+
     await dp.start_polling(bot)
 
 if __name__== "__main__":
