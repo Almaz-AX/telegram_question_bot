@@ -86,26 +86,16 @@ def run_http_server():
 
 # --- 5. ЗАПУСК ---
 async def main():
-    print("="*60)
-    print("🤖 БОТ ДЛЯ СБОРА АНОНИМНЫХ ВОПРОСОВ ПО ПСИХОЛОГИИ")
-    print("="*60)
+    print("="*50)
     
-    # Запускаем фиктивный веб-сервер в отдельном потоке
-    server_thread = threading.Thread(target=run_http_server, daemon=True)
-    server_thread.start()
+    # Запускаем HTTP-сервер как задачу
+    import threading
+    thread = threading.Thread(target=run_http_server, daemon=True)
+    thread.start()
+    await asyncio.sleep(0.5)  # Даем время на запуск
     
-    print(f"✅ Бот запущен и готов к работе!")
-    print(f"📨 Ожидаю анонимные вопросы...")
-    print(f"📤 Вопросы будут отправляться в чат ID: {ADMIN_CHAT_ID}")
-    print("="*60 + "\n")
-    
-    # Запускаем бота (long polling)
-    try:
-        await dp.start_polling(bot)
-    except Exception as e:
-        print(f"❌ Ошибка работы бота: {e}")
-    finally:
-        await bot.session.close()
+    print("🚀 Запускаю бота...")
+    await dp.start_polling(bot)
 
 # async def main():
 #     await dp.start_polling(bot)
